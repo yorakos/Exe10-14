@@ -1,0 +1,42 @@
+import java.io.*;
+import java.security.InvalidParameterException;
+import java.util.PriorityQueue;
+public class act20_1 {
+    public static void main(String[] args) throws Exception {
+
+    if (args.length != 1)
+        throw new InvalidParameterException("Usage: Exercise_01 filename");
+
+    File file = new File(args[0]);
+
+    if (!file.isFile())
+        throw new FileNotFoundException(file.getName() + " is not a file");
+
+    PriorityQueue<String> queue = new PriorityQueue<>(1000, String.CASE_INSENSITIVE_ORDER);
+
+    try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+
+        String s;
+        while ((s = in.readLine()) != null) {
+
+            String[] words = getValidWords(s);
+            for (String word : words) {
+                queue.add(word);
+            }
+        }
+    } catch (FileNotFoundException e) {
+        System.out.println("File Not Found");
+        e.printStackTrace();
+    }
+
+    while (queue.size() > 0) {
+        System.out.println(queue.poll() );
+    }
+
+}
+
+    public static String[] getValidWords(String s) {
+        return s.split(" ");
+    }
+
+}
